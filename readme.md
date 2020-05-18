@@ -5,7 +5,6 @@ This is version 3.2, which aims to comply with [homie MQTT convention](https://g
 
 The implementation of the convention is not complete yet.
 
-It´s forked from excelent work of mp2526/mFi-tools, maletazul/mFi-tools and magcode/mpower-tools, I've added support for the mFiMSC
 
 # Compatible Devices
 - mPower Mini and mPower Outlet 3 or 8 Ports
@@ -21,7 +20,7 @@ Enter the following commands
 
 ```
 mkdir /var/etc/persistent/mqtt
-wget --no-check-certificate -q https://raw.githubusercontent.com/rangulicon/mFi-tools/master/mqtt/client/install-client.sh -O /var/etc/persistent/mqtt/install-client.sh;chmod 755 /var/etc/persistent/mqtt/install-client.sh;/var/etc/persistent/mqtt/install-client.sh
+wget --no-check-certificate -q https://raw.githubusercontent.com/haxx0r07/mFi-tools/master/mqtt/client/install-client.sh -O /var/etc/persistent/mqtt/install-client.sh;chmod 755 /var/etc/persistent/mqtt/install-client.sh;/var/etc/persistent/mqtt/install-client.sh
 
 save
 reboot
@@ -195,6 +194,8 @@ MQTT client Provides an MQTT client.
 
 Setup examples for Home Assistant/Hassio.io and openHAB
 
-Forked from https://github.com/maletazul/mFi-tools
+Forked from https://github.com/unverbraucht/mFi-tools
+
+which in turn is forked from https://github.com/maletazul/mFi-tools
 
 which in turn is forked from https://github.com/magcode/mpower-tools

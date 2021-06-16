@@ -9,7 +9,7 @@ The implementation of the convention is not complete yet.
 # Compatible Devices
 - mPower Mini and mPower Outlet 3 or 8 Ports
 
-- mFiTHS, mFiCS, mFiMSW, mFiMSC and mFiDS
+- mFiTHS, mFiCS, mFiMSW, mFiMSC, mFiDS and RTD sensor
 
 # Warning
 Use at your own risk!
@@ -20,7 +20,7 @@ Enter the following commands
 
 ```
 mkdir /var/etc/persistent/mqtt
-wget --no-check-certificate -q https://raw.githubusercontent.com/haxx0r07/mFi-tools/master/mqtt/client/install-client.sh -O /var/etc/persistent/mqtt/install-client.sh;chmod 755 /var/etc/persistent/mqtt/install-client.sh;/var/etc/persistent/mqtt/install-client.sh
+wget --no-check-certificate -q https://raw.githubusercontent.com/mmv-ru/mFi-tools/master/mqtt/client/install-client.sh -O /var/etc/persistent/mqtt/install-client.sh;chmod 755 /var/etc/persistent/mqtt/install-client.sh;/var/etc/persistent/mqtt/install-client.sh
 
 save
 reboot
@@ -63,11 +63,14 @@ energy=1
 lock=1
 voltage=0
 current=1
+pf=1
+stat=1
 mFiTHS=1
 mFiCS=1
 mFiMSW=1
 mFiMSC=1
 mFiDS=1
+RTD=1
 ```
 
 # mPower Published data
@@ -92,16 +95,23 @@ homie/mpower-1/port2/current=4.6
 homie/mpower-1/port3/current=0.0
 ```
 
+Every SLOWUPDATENUMBER (default: 6) refresh
+
+```
+homie/mpower-1/$stats/uptime=2589629.67
+homie/mpower-1/$stats/load1
+```
+
 Additionally - currently only at the start of the script - the device will also report:
 
 ```
-homie/mpower-1/$homie=2.1.0
+homie/mpower-1/$homie=3.0.0
 homie/mpower-1/$name=mpower-1
 homie/mpower-1/$fw/version=MF.v2.1.11-mq-0.2
 homie/mpower-1/$fw/name=mPower=MQTT
 homie/mpower-1/$localip=192.168.1.26
+homie/mpower-1/$mac=DC:9F:DB:18:00:A1
 homie/mpower-1/$nodes=port1,port2,port3
-homie/mpower-1/$stats/uptime=2589629.67
 homie/mpower-1/port1/relay/$settable=true
 homie/mpower-1/port2/relay/$settable=true
 homie/mpower-1/port3/relay/$settable=true
@@ -125,16 +135,6 @@ homie/mport-3/port1/mFiMSW
 homie/mport-3/port1/mFiDS
 ```
 
-Additionally - currently only at the start of the script - the device will also report:
-
-```
-homie/mport-1/$homie 3.0.0
-homie/mport-1/$name mport-1
-homie/mport-1/$fw/version MF.v2.1.12-mq-0.2
-homie/mport-1/$fw/name mFi MQTT
-homie/mport-1/$localip (null)
-homie/mport-1/$nodes port1,port2,port3
-homie/mmport-1/$stats/uptime 5441.57
 
 # Control sockets via MQTT
 You can control the sockets by sending `0` or `1` to the topic `<topic chosen above>/port<number of socket>/relay/set`

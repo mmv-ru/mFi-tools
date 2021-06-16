@@ -11,6 +11,7 @@ export topic=homie/$devicename
 export clientID="MPMQCLIENT"
 
 refresh=60
+SLOWUPDATENUMBER=6
 version=$(cat /etc/version)-mq-0.2
 
 source $BIN_PATH/client/mqtt.cfg

@@ -14,6 +14,7 @@ find $LOCALSCRIPTDIR ! -name '*.cfg' -type f -exec rm -f '{}' \;
 wget --no-check-certificate -q $BASEURL/client/mqrun.sh -O $LOCALSCRIPTDIR/mqrun.sh
 wget --no-check-certificate -q $BASEURL/client/mqpub-static.sh -O $LOCALSCRIPTDIR/mqpub-static.sh
 wget --no-check-certificate -q $BASEURL/client/mqpub.sh -O $LOCALSCRIPTDIR/mqpub.sh
+wget --no-check-certificate -q $BASEURL/client/model.cfg -O $LOCALSCRIPTDIR/model.cfg
 wget --no-check-certificate -q $BASEURL/client/mqsub.sh -O $LOCALSCRIPTDIR/mqsub.sh
 wget --no-check-certificate -q $BASEURL/client/mqstop.sh -O $LOCALSCRIPTDIR/mqstop.sh
 

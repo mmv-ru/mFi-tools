@@ -4,6 +4,10 @@ log() {
         logger -s -t "mqtt" "$*"
 }
 
+model_lookup() {
+    awk -F ";" "/$1/ { print \$$2 }" $BIN_PATH/client/model.cfg
+}
+
 # read config file
 source $BIN_PATH/client/mpower-pub.cfg
 export PUBBIN=$BIN_PATH/mosquitto_pub
@@ -77,88 +81,13 @@ do
     then
 
         log "Gathering mPort values."
-
-        # port1
-        if [ $mFiTHS -eq 1 ] && [ "$port1" == "mFiTHS" ]
-        then
-            # temperature
-            mFiTHS_val=`cat /proc/analog/value1`
-            $PUBBIN -h $mqtthost $auth -t $topic/port1/temperature -m "$mFiTHS_val" -r
-        fi
-        if [ $mFiCS -eq 1 ]  && [ "$port1" == "mFiCS" ]
-        then
-            #current
-            mFiCS_val=`cat /proc/analog/rms1`
-            $PUBBIN -h $mqtthost $auth -t $topic/port1/current -m "$mFiCS_val" -r
-        fi
-        if [ $mFiMSW -eq 1 ] && [ "$port1" == "mFiMSW" ]
-        then
-            #sensor movimento
-            mFiMSW_val=`cat /dev/input21`
-            $PUBBIN -h $mqtthost $auth -t $topic/port1/motion -m "$mFiMSW_val" -r
-        fi
-        if [ $mFiMSC -eq 1 ] && [ "$port1" == "mFiMSC" ]
-        then
-            #sensor movimento
-            mFiMSC_val=`cat /dev/input21`
-            $PUBBIN -h $mqtthost $auth -t $topic/port1/motion -m "$mFiMSC_val" -r
-        fi
-        if [ $mFiDS -eq 1 ]  && [ "$port1" == "mFiDS" ] || [ "$port2" == "mFiDS" ] || [ "$port3" == "mFiDS" ]
-        then
-            #sensor abertura porta
-            mFiDS_val=`cat /dev/input11`
-            $PUBBIN -h $mqtthost $auth -t $topic/port1/door -m "$mFiDS_val" -r
-        fi
-
-        # port2
-        if [ $mFiTHS -eq 1 ] && [ "$port2" == "mFiTHS" ]
-        then
-            #temperature
-            mFiTHS_val=`cat /proc/analog/value2`
-            $PUBBIN -h $mqtthost $auth -t $topic/port2/temperature -m "$mFiTHS_val" -r
-        fi
-        if [ $mFiCS -eq 1 ] && [ "$port2" == "mFiCS" ]
-        then
-            #pinca corrente
-            mFiCS_val=`cat /proc/analog/rms2`
-            $PUBBIN -h $mqtthost $auth -t $topic/port2/current -m "$mFiCS_val" -r
-        fi
-
-        if [ $mFiMSW -eq 1 ] && [ "$port2" == "mFiMSW" ]
-        then
-            #sensor movimento
-            mFiMSW_val=`cat /dev/input22`
-            $PUBBIN -h $mqtthost $auth -t $topic/port2/motion -m "$mFiMSW_val" -r
-        fi
-
-        if [ $mFiMSC -eq 1 ] && [ "$port2" == "mFiMSC" ]
-        then
-            #sensor movimento
-            mFiMSC_val=`cat /dev/input22`
-            $PUBBIN -h $mqtthost $auth -t $topic/port2/motion -m "$mFiMSC_val" -r
-        fi
-
-        if [ $mFiDS -eq 1 ] && [ "$port2" == "mFiDS" ]
-        then
-            #sensor abertura porta
-            mFiDS_val=`cat /dev/input12`
-            $PUBBIN -h $mqtthost $auth -t $topic/port2/door -m "$mFiDS_val" -r
-        fi
-
-        # port3
-        if [ $mFiDS -eq 1 ] && [ "$port3" == "mFiDS" ]
-        then
-            #sensor abertura porta
-            mFiDS_val=`cat /dev/input13`
-            $PUBBIN -h $mqtthost $auth -t $topic/port3/door -m "$mFiDS_val" -r
-        fi
-
-        if [ $RTD -eq 1 ] && [ "$port3" == "RTD" ]
-        then
-            #sensor abertura porta
-            RTD_val=`cat /proc/analog/value4`
-            $PUBBIN -h $mqtthost $auth -t $topic/port3/temperature -m "$RTD_val" -r
-        fi
+        for i in $(seq $PORTS)
+        do
+            portname="port$i"
+            eval portrole="\$$portname"
+            log "$portname=$portrole"
+            $PUBBIN -h $mqtthost $auth -t $topic/port$i/$(model_lookup $portrole 2) -m $(eval "$(model_lookup $portrole 7)" ) -r
+        done
     fi
 
     if [ "$mFiType" == "mPower" ] || [ "$mFiType" == "mPower Mini" ] || [ "$mFiType" == "mPower Pro" ]

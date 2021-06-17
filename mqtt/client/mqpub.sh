@@ -187,6 +187,7 @@ do
 
           UPTIME=`awk '{print $1}' /proc/uptime`
           $PUBBIN -h $mqtthost $auth -t $topic/\$stats/uptime -m "$UPTIME" -r
+          $BIN_PATH/client/mqpub-static.sh
           SLOWUPDATECOUNTER=$((SLOWUPDATENUMBER))
       else
           SLOWUPDATECOUNTER=$((SLOWUPDATECOUNTER-1))

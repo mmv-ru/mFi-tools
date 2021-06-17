@@ -8,3 +8,6 @@
 .idea/vcs.xml
 .idea/workspace.xml
 mFi-tools.iml
+# tmp files
+*~
+.*.kate-swp

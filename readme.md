@@ -99,7 +99,9 @@ Every SLOWUPDATENUMBER (default: 6) refresh
 
 ```
 homie/mpower-1/$stats/uptime=2589629.67
-homie/mpower-1/$stats/load1
+homie/mpower-1/$stats/load1=0.58
+homie/mpower-1/$stats/load5=0.54
+homie/mpower-1/$stats/load15=0.5
 ```
 
 Additionally - currently only at the start of the script - the device will also report:

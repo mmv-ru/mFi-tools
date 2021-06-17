@@ -34,7 +34,6 @@ REFRESHCOUNTER=$refresh
 FASTUPDATE=0
 
 SLOWUPDATECOUNTER=0
-SLOWUPDATENUMBER=6
 
 export relay=$relay
 export power=$power

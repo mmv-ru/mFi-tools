@@ -47,6 +47,7 @@ export mFiMSW=$mFiMSW
 export mFiMSC=$mFiMSC
 export mFiDS=$mFiDS
 
+$PUBBIN -h $mqtthost $auth -t $topic/\$state -m "init" -r
 $BIN_PATH/client/mqpub-static.sh
 while sleep 1;
 do
@@ -174,6 +175,7 @@ do
         fi
     fi
 
+    $PUBBIN -h $mqtthost -t $topic/\$state -m "ready" -r --will-topic $topic/\$state --will-payload lost --will-qos 1
     if [ $stat -eq 1 ]
     then
       if [ $SLOWUPDATECOUNTER -le 0 ]

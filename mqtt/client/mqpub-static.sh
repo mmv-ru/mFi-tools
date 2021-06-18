@@ -6,7 +6,6 @@ model_lookup() {
 
 # homie spec (incomplete)
 $PUBBIN -h $mqtthost $auth -t $topic/\$homie -m "3.0.0" -r
-$PUBBIN -h $mqtthost $auth -t $topic/\$state -m "init" -r
 $PUBBIN -h $mqtthost $auth -t $topic/\$name -m "$devicename" -r
 $PUBBIN -h $mqtthost $auth -t $topic/\$fw/version -m "$version" -r
 
@@ -100,5 +99,3 @@ then
     fi
 
 fi
-
-$PUBBIN -h $mqtthost -t $topic/\$state -m "ready" -r --will-topic $topic/\$state --will-payload lost --will-qos 1

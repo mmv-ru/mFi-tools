@@ -14,6 +14,7 @@ refresh=60
 SLOWUPDATENUMBER=6
 version=$(cat /etc/version)-mq-0.2
 
+# Load config
 source $BIN_PATH/client/mqtt.cfg
 
 if [ -z "$mqtthost" ]; then

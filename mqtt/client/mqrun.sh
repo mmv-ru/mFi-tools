@@ -45,6 +45,7 @@ export version
 export port1
 export port2
 export port3
+export SLOWUPDATENUMBER
 
 log "starting pub and sub scripts"
 $BIN_PATH/client/mqpub.sh &

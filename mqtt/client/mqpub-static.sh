@@ -39,14 +39,16 @@ then
     do
         portname="port$i"
         eval portrole="\$$portname"
-        $PUBBIN -h $mqtthost $auth -t $topic/port$i/\$name -m "Port $i" -r
-        $PUBBIN -h $mqtthost $auth -t $topic/port$i/\$type -m "$portrole" -r
-        $PUBBIN -h $mqtthost $auth -t $topic/port$i/\$properties -m "$(model_lookup $portrole 2)" -r
-        $PUBBIN -h $mqtthost $auth -t $topic/port$i/$(model_lookup $portrole 2)/\$name -m "$(model_lookup $portrole 3)" -r
-        $PUBBIN -h $mqtthost $auth -t $topic/port$i/$(model_lookup $portrole 2)/\$settable -m "false" -r
-        $PUBBIN -h $mqtthost $auth -t $topic/port$i/$(model_lookup $portrole 2)/\$unit -m "$(model_lookup $portrole 4)" -r
-        $PUBBIN -h $mqtthost $auth -t $topic/port$i/$(model_lookup $portrole 2)/\$datatype -m "$(model_lookup $portrole 5)" -r
-        $PUBBIN -h $mqtthost $auth -t $topic/port$i/$(model_lookup $portrole 2)/\$format -m "$(model_lookup $portrole 6)" -r
+        if [ "$portrole" != "" ] ; then
+            $PUBBIN -h $mqtthost $auth -t $topic/port$i/\$name -m "Port $i" -r
+            $PUBBIN -h $mqtthost $auth -t $topic/port$i/\$type -m "$portrole" -r
+            $PUBBIN -h $mqtthost $auth -t $topic/port$i/\$properties -m "$(model_lookup $portrole 2)" -r
+            $PUBBIN -h $mqtthost $auth -t $topic/port$i/$(model_lookup $portrole 2)/\$name -m "$(model_lookup $portrole 3)" -r
+            $PUBBIN -h $mqtthost $auth -t $topic/port$i/$(model_lookup $portrole 2)/\$settable -m "false" -r
+            $PUBBIN -h $mqtthost $auth -t $topic/port$i/$(model_lookup $portrole 2)/\$unit -m "$(model_lookup $portrole 4)" -r
+            $PUBBIN -h $mqtthost $auth -t $topic/port$i/$(model_lookup $portrole 2)/\$datatype -m "$(model_lookup $portrole 5)" -r
+            $PUBBIN -h $mqtthost $auth -t $topic/port$i/$(model_lookup $portrole 2)/\$format -m "$(model_lookup $portrole 6)" -r
+        fi
     done
 
 fi

@@ -85,8 +85,10 @@ do
         do
             portname="port$i"
             eval portrole="\$$portname"
-            log "$portname=$portrole"
-            $PUBBIN -h $mqtthost $auth -t $topic/port$i/$(model_lookup $portrole 2) -m $(eval "$(model_lookup $portrole 7)" ) -r
+            if [ "$portrole" != "" ] ; then
+                log "$portname=$portrole"
+                $PUBBIN -h $mqtthost $auth -q 1 -t $topic/port$i/$(model_lookup $portrole 2) -m $(eval "$(model_lookup $portrole 7)" ) -r
+            fi
         done
     fi
 

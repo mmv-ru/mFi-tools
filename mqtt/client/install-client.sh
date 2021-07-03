@@ -3,29 +3,45 @@
 LOCALDIR="/var/etc/persistent/mqtt"
 LOCALSCRIPTDIR=$LOCALDIR/client
 BASEURL="https://raw.githubusercontent.com/mmv-ru/mFi-tools/master/mqtt"
+INSTALLTMPDIR="/tmp/mfi-tools-install/$$"
+
+installfrominet() {
+        wget --no-check-certificate $BASEURL/$1?raw=true -O $INSTALLTMPDIR/$1 && mv $INSTALLTMPDIR/$1 $LOCALDIR/$1
+}
 
 echo "Installing mFi tools MQTT v3.2 ..."
-wget --no-check-certificate -q $BASEURL/libmosquitto.so.1?raw=true -O $LOCALDIR/libmosquitto.so.1
-wget --no-check-certificate -q $BASEURL/mosquitto_pub?raw=true -O $LOCALDIR/mosquitto_pub
-wget --no-check-certificate -q $BASEURL/mosquitto_sub?raw=true -O $LOCALDIR/mosquitto_sub
+mkdir -p $LOCALDIR
+mkdir -p $INSTALLTMPDIR
+installfrominet libmosquitto.so.1
+installfrominet mosquitto_pub
+installfrominet mosquitto_sub
 mkdir -p $LOCALSCRIPTDIR
+mkdir -p $INSTALLTMPDIR/client
 # clean directory, but leave *.cfg files untouched
-find $LOCALSCRIPTDIR ! -name '*.cfg' -type f -exec rm -f '{}' \;
-wget --no-check-certificate -q $BASEURL/client/mqrun.sh -O $LOCALSCRIPTDIR/mqrun.sh
-wget --no-check-certificate -q $BASEURL/client/mqpub-static.sh -O $LOCALSCRIPTDIR/mqpub-static.sh
-wget --no-check-certificate -q $BASEURL/client/mqpub.sh -O $LOCALSCRIPTDIR/mqpub.sh
-wget --no-check-certificate -q $BASEURL/client/model.cfg -O $LOCALSCRIPTDIR/model.cfg
-wget --no-check-certificate -q $BASEURL/client/mqsub.sh -O $LOCALSCRIPTDIR/mqsub.sh
-wget --no-check-certificate -q $BASEURL/client/mqstop.sh -O $LOCALSCRIPTDIR/mqstop.sh
+#find $LOCALSCRIPTDIR ! -name '*.cfg' -type f -exec rm -f '{}' \;
+installfrominet client/mqrun.sh
+installfrominet client/mqpub-static.sh
+installfrominet client/mqpub.sh
+installfrominet client/mqsub.sh
+installfrominet client/mqstop.sh
 
+installfrominet client/model.sample.cfg
+if [ ! -f $LOCALSCRIPTDIR/model.cfg ]; then
+    cp $LOCALSCRIPTDIR/model.sample.cfg $LOCALSCRIPTDIR/model.cfg
+fi
+
+installfrominet client/mpower-pub.sample.cfg
 if [ ! -f $LOCALSCRIPTDIR/mpower-pub.cfg ]; then
-    wget --no-check-certificate -q $BASEURL/client/mpower-pub.cfg -O $LOCALSCRIPTDIR/mpower-pub.cfg
+    cp $LOCALSCRIPTDIR/mpower-pub.sample.cfg $LOCALSCRIPTDIR/mpower-pub.cfg
 fi
 
+installfrominet client/mqtt.sample.cfg
 if [ ! -f $LOCALSCRIPTDIR/mqtt.cfg ]; then
-    wget --no-check-certificate -q $BASEURL/client/mqtt.cfg -O $LOCALSCRIPTDIR/mqtt.cfg
+    cp $LOCALSCRIPTDIR/mqtt.sample.cfg $LOCALSCRIPTDIR/mqtt.cfg
 fi
 
+
+echo Set permissions
 chmod 755 $LOCALDIR/mosquitto_pub
 chmod 755 $LOCALDIR/mosquitto_sub
 chmod 755 $LOCALSCRIPTDIR/mqrun.sh
@@ -34,6 +50,9 @@ chmod 755 $LOCALSCRIPTDIR/mqpub.sh
 chmod 755 $LOCALSCRIPTDIR/mqsub.sh
 chmod 755 $LOCALSCRIPTDIR/mqstop.sh
 
+
+
+echo Configure start after reboot
 poststart=/etc/persistent/rc.poststart
 startscript=$LOCALSCRIPTDIR/mqrun.sh
  
@@ -50,7 +69,9 @@ else
    echo "Adding start command to $poststart"
    echo "$startscript" >> $poststart
 fi
- 
+
+rm -rf "$INSTALLTMPDIR"
+
 echo "Done!"
 echo "Please configure mqtt.cfg"
 echo "Please configure mpower-pub.cfg"

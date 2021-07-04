@@ -16,7 +16,9 @@ Use at your own risk!
 
 # Installation
 Use a SSH client and connect to your mFi device.
+
 ~~Enter the following commands~~
+
 *wget from mFi device unable to connect to github dye to not suport modern SSL protocol*
 
 ```

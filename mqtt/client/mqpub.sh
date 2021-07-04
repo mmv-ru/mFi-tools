@@ -186,12 +186,12 @@ do
 
     if [ $stat -eq 1 ]
     then
+      LOAD1=`awk '{print $1}' /proc/loadavg`
+      $PUBBIN $MQTTPARAMS -t $topic/\$stats/load1 -m "$LOAD1" -r
       if [ $SLOWUPDATECOUNTER -le 0 ]
       then
-          LOAD1=`awk '{print $1}' /proc/loadavg`
           LOAD5=`awk '{print $2}' /proc/loadavg`
           LOAD15=`awk '{print $3}' /proc/loadavg`
-          $PUBBIN $MQTTPARAMS -t $topic/\$stats/load1 -m "$LOAD1" -r
           $PUBBIN $MQTTPARAMS -t $topic/\$stats/load5 -m "$LOAD5" -r
           $PUBBIN $MQTTPARAMS -t $topic/\$stats/load15 -m "$LOAD15" -r
 

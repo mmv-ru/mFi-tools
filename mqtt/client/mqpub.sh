@@ -178,8 +178,6 @@ do
         fi
     fi
 
-    $PUBBIN -h $mqtthost -t $topic/\$state -m "ready" -r --will-topic $topic/\$state --will-payload lost --will-qos 1
-
     if [ $SLOWUPDATECOUNTER -le 0 ] ; then
           $BIN_PATH/client/mqpub-static.sh
     fi

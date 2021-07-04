@@ -5,6 +5,7 @@ log() {
 }
 
 log "MQTT listening..."
+# TODO: Try LWT for mosquitto_sub. It can work because it holds tersistent connection.
 $BIN_PATH/mosquitto_sub -I $clientID $MQTTPARAMS -v -t $topic/+/+/set | while read line; do
     rxtopic=`echo $line| cut -d" " -f1`
     inputVal=`echo $line| cut -d" " -f2`

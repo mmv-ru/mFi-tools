@@ -101,3 +101,5 @@ then
     fi
 
 fi
+
+$PUBBIN $MQTTPARAMS -t $topic/\$state -m "ready" -r

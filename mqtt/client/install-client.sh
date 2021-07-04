@@ -44,7 +44,7 @@ if [ ! -f $LOCALSCRIPTDIR/mqtt.cfg ]; then
 fi
 
 
-echo Set permissions
+echo "Set permissions on files in $LOCALDIR"
 chmod 755 $LOCALDIR/mosquitto_pub
 chmod 755 $LOCALDIR/mosquitto_sub
 chmod 755 $LOCALSCRIPTDIR/mqrun.sh
@@ -55,7 +55,7 @@ chmod 755 $LOCALSCRIPTDIR/mqstop.sh
 
 
 
-echo Configure start after reboot
+echo "Configure start after reboot"
 poststart=/etc/persistent/rc.poststart
 startscript=$LOCALSCRIPTDIR/mqrun.sh
  

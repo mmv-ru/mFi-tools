@@ -46,8 +46,9 @@ export mFiCS=$mFiCS
 export mFiMSW=$mFiMSW
 export mFiMSC=$mFiMSC
 export mFiDS=$mFiDS
+export MQTTPARAMS
 
-$PUBBIN -h $mqtthost $auth -t $topic/\$state -m "init" -r
+$PUBBIN $MQTTPARAMS -t $topic/\$state -m "init" -r
 $BIN_PATH/client/mqpub-static.sh
 while sleep 1;
 do
@@ -87,7 +88,7 @@ do
             eval portrole="\$$portname"
             if [ "$portrole" != "" ] ; then
                 log "$portname=$portrole"
-                $PUBBIN -h $mqtthost $auth -q 1 -t $topic/port$i/$(model_lookup $portrole 2) -m $(eval "$(model_lookup $portrole 7)" ) -r
+                $PUBBIN $MQTTPARAMS -q 1 -t $topic/port$i/$(model_lookup $portrole 2) -m $(eval "$(model_lookup $portrole 7)" ) -r
             fi
         done
     fi
@@ -106,7 +107,7 @@ do
                 then
                   relay_val=0
                 fi
-                $PUBBIN -h $mqtthost $auth -t $topic/port$i/relay -m "$relay_val" -r
+                $PUBBIN $MQTTPARAMS -t $topic/port$i/relay -m "$relay_val" -r
             done
         fi
 
@@ -117,7 +118,7 @@ do
             do
                 power_val=`cat /proc/power/active_pwr$((i))`
                 power_val=`printf "%.1f" $power_val`
-                $PUBBIN -h $mqtthost $auth -t $topic/port$i/power -m "$power_val" -r
+                $PUBBIN $MQTTPARAMS -t $topic/port$i/power -m "$power_val" -r
             done
         fi
 
@@ -129,7 +130,7 @@ do
                 energy_val=`cat /proc/power/cf_count$((i))`
                 energy_val=$(awk -vn1="$energy_val" -vn2="0.3125" 'BEGIN{print n1*n2}')
                 energy_val=`printf "%.0f" $energy_val`
-                $PUBBIN -h $mqtthost $auth -t $topic/port$i/energy -m "$energy_val" -r
+                $PUBBIN $MQTTPARAMS -t $topic/port$i/energy -m "$energy_val" -r
             done
         fi
 
@@ -140,7 +141,7 @@ do
             do
                 voltage_val=`cat /proc/power/v_rms$((i))`
                 voltage_val=`printf "%.1f" $voltage_val`
-                $PUBBIN -h $mqtthost $auth -t $topic/port$i/voltage -m "$voltage_val" -r
+                $PUBBIN $MQTTPARAMS -t $topic/port$i/voltage -m "$voltage_val" -r
             done
         fi
 
@@ -151,7 +152,7 @@ do
             do
                 current_val=`cat /proc/power/i_rms$((i))`
                 current_val=`printf "%.1f" $current_val`
-                $PUBBIN -h $mqtthost $auth -t $topic/port$i/current -m "$current_val" -r
+                $PUBBIN $MQTTPARAMS -t $topic/port$i/current -m "$current_val" -r
             done
         fi
 
@@ -161,7 +162,7 @@ do
             for i in $(seq $PORTS)
             do
                 port_val=`cat /proc/power/lock$((i))`
-                $PUBBIN -h $mqtthost $auth -t $topic/port$i/lock -m "$port_val" -r
+                $PUBBIN $MQTTPARAMS -t $topic/port$i/lock -m "$port_val" -r
             done
         fi
 
@@ -172,7 +173,7 @@ do
             do
                 pf_val=`cat /proc/power/pf$((i))`
                 pf_val=`printf "%.2f" $pf_val`
-                $PUBBIN -h $mqtthost $auth -t $topic/port$i/pf -m "$pf_val" -r
+                $PUBBIN $MQTTPARAMS -t $topic/port$i/pf -m "$pf_val" -r
             done
         fi
     fi
@@ -185,12 +186,12 @@ do
           LOAD1=`awk '{print $1}' /proc/loadavg`
           LOAD5=`awk '{print $2}' /proc/loadavg`
           LOAD15=`awk '{print $3}' /proc/loadavg`
-          $PUBBIN -h $mqtthost $auth -t $topic/\$stats/load1 -m "$LOAD1" -r
-          $PUBBIN -h $mqtthost $auth -t $topic/\$stats/load5 -m "$LOAD5" -r
-          $PUBBIN -h $mqtthost $auth -t $topic/\$stats/load15 -m "$LOAD15" -r
+          $PUBBIN $MQTTPARAMS -t $topic/\$stats/load1 -m "$LOAD1" -r
+          $PUBBIN $MQTTPARAMS -t $topic/\$stats/load5 -m "$LOAD5" -r
+          $PUBBIN $MQTTPARAMS -t $topic/\$stats/load15 -m "$LOAD15" -r
 
           UPTIME=`awk '{print $1}' /proc/uptime`
-          $PUBBIN -h $mqtthost $auth -t $topic/\$stats/uptime -m "$UPTIME" -r
+          $PUBBIN $MQTTPARAMS -t $topic/\$stats/uptime -m "$UPTIME" -r
           $BIN_PATH/client/mqpub-static.sh
           SLOWUPDATECOUNTER=$((SLOWUPDATENUMBER))
       else

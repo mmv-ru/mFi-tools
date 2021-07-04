@@ -46,6 +46,7 @@ export port1
 export port2
 export port3
 export SLOWUPDATENUMBER
+export MQTTPARAMS="-h $mqtthost $auth"
 
 log "starting pub and sub scripts"
 $BIN_PATH/client/mqpub.sh &

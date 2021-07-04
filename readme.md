@@ -16,7 +16,8 @@ Use at your own risk!
 
 # Installation
 Use a SSH client and connect to your mFi device.
-Enter the following commands
+~~Enter the following commands~~
+*wget from mFi device unable to connect to github dye to not suport modern SSL protocol*
 
 ```
 mkdir /var/etc/persistent/mqtt
@@ -25,6 +26,20 @@ wget --no-check-certificate -q https://raw.githubusercontent.com/mmv-ru/mFi-tool
 save
 reboot
 ```
+# Installation with broken wget
+
+ 1. Download sources from reposotory.
+ 2. Optionally, copy and edit config filed in mqtt/client folder (model.cfg mqtt.cfg mpower-pub.cfg)
+ 3. upload mqtt folder to /etc/persistent
+```
+scp -r mqtt ubnt@<device address>:/etc/persistent/
+```
+
+ 4. Connect ssh to device
+ 5. Run installer `sh /etc/persistent/mqtt/client/install-client.sh`
+ 6. Edit config files in /etc/persistent/mqtt/client (model.cfg mqtt.cfg mpower-pub.cfg), if not edited already. (vi available)
+ 7. Run mqtt client `/etc/persistent/mqtt/client/mqrun.sh` and check it working.
+ 8. Save device config by command `save`
 
 # Starting
 ```

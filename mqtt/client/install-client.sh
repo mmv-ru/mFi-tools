@@ -9,33 +9,36 @@ installfrominet() {
         wget --no-check-certificate $BASEURL/$1?raw=true -O $INSTALLTMPDIR/$1 && mv $INSTALLTMPDIR/$1 $LOCALDIR/$1
 }
 
-echo "Installing mFi tools MQTT v3.2 ..."
-mkdir -p $LOCALDIR
-mkdir -p $INSTALLTMPDIR
-installfrominet libmosquitto.so.1
-installfrominet mosquitto_pub
-installfrominet mosquitto_sub
-mkdir -p $LOCALSCRIPTDIR
-mkdir -p $INSTALLTMPDIR/client
-# clean directory, but leave *.cfg files untouched
-#find $LOCALSCRIPTDIR ! -name '*.cfg' -type f -exec rm -f '{}' \;
-installfrominet client/mqrun.sh
-installfrominet client/mqpub-static.sh
-installfrominet client/mqpub.sh
-installfrominet client/mqsub.sh
-installfrominet client/mqstop.sh
+if [ "$1" != skip-download ] ; then
+    echo "Installing mFi tools MQTT v3.2 from $BASEURL ..."
+    mkdir -p $LOCALDIR
+    mkdir -p $INSTALLTMPDIR
+    installfrominet libmosquitto.so.1
+    installfrominet mosquitto_pub
+    installfrominet mosquitto_sub
+    mkdir -p $LOCALSCRIPTDIR
+    mkdir -p $INSTALLTMPDIR/client
+    # clean directory, but leave *.cfg files untouched
+    #find $LOCALSCRIPTDIR ! -name '*.cfg' -type f -exec rm -f '{}' \;
+    installfrominet client/mqrun.sh
+    installfrominet client/mqpub-static.sh
+    installfrominet client/mqpub.sh
+    installfrominet client/mqsub.sh
+    installfrominet client/mqstop.sh
 
-installfrominet client/model.sample.cfg
+    installfrominet client/model.sample.cfg
+    installfrominet client/mpower-pub.sample.cfg
+    installfrominet client/mqtt.sample.cfg
+fi
+
 if [ ! -f $LOCALSCRIPTDIR/model.cfg ]; then
     cp $LOCALSCRIPTDIR/model.sample.cfg $LOCALSCRIPTDIR/model.cfg
 fi
 
-installfrominet client/mpower-pub.sample.cfg
 if [ ! -f $LOCALSCRIPTDIR/mpower-pub.cfg ]; then
     cp $LOCALSCRIPTDIR/mpower-pub.sample.cfg $LOCALSCRIPTDIR/mpower-pub.cfg
 fi
 
-installfrominet client/mqtt.sample.cfg
 if [ ! -f $LOCALSCRIPTDIR/mqtt.cfg ]; then
     cp $LOCALSCRIPTDIR/mqtt.sample.cfg $LOCALSCRIPTDIR/mqtt.cfg
 fi

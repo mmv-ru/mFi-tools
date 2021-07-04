@@ -5,6 +5,13 @@ if [ "$1" == "" ] ; then
     exit
 fi
 
+MY_PATH="`dirname \"$0\"`"              # relative
+cd "$MY_PATH"
+if [ -z "$MY_PATH" ] ; then
+  echo "error: for some reason, the \"${MY_PATH}\" is not accessible"
+  exit 1  # fail
+fi
+
 # mFi devices use old weak auth method so enable it
 SSHOPT="-oKexAlgorithms=+diffie-hellman-group1-sha1"
 # Use persistent master connection to not enter password multiple times

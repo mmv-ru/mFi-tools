@@ -179,6 +179,11 @@ do
     fi
 
     $PUBBIN -h $mqtthost -t $topic/\$state -m "ready" -r --will-topic $topic/\$state --will-payload lost --will-qos 1
+
+    if [ $SLOWUPDATECOUNTER -le 0 ] ; then
+          $BIN_PATH/client/mqpub-static.sh
+    fi
+
     if [ $stat -eq 1 ]
     then
       if [ $SLOWUPDATECOUNTER -le 0 ]
@@ -192,7 +197,6 @@ do
 
           UPTIME=`awk '{print $1}' /proc/uptime`
           $PUBBIN $MQTTPARAMS -t $topic/\$stats/uptime -m "$UPTIME" -r
-          $BIN_PATH/client/mqpub-static.sh
           SLOWUPDATECOUNTER=$((SLOWUPDATENUMBER))
       else
           SLOWUPDATECOUNTER=$((SLOWUPDATECOUNTER-1))

@@ -35,17 +35,17 @@ FASTUPDATE=0
 
 SLOWUPDATECOUNTER=0
 
-export relay=$relay
-export power=$power
-export energy=$energy
-export voltage=$voltage
-export current=$current
-export lock=$lock
-export mFiTHS=$mFiTHS
-export mFiCS=$mFiCS
-export mFiMSW=$mFiMSW
-export mFiMSC=$mFiMSC
-export mFiDS=$mFiDS
+export relay
+export power
+export energy
+export voltage
+export current
+export lock
+export mFiTHS
+export mFiCS
+export mFiMSW
+export mFiMSC
+export mFiDS
 export MQTTPARAMS
 
 $PUBBIN $MQTTPARAMS -t $topic/\$state -m "init" -r

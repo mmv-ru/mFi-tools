@@ -5,8 +5,8 @@ log() {
 }
 
 log "MQTT listening..."
-# TODO: Try LWT for mosquitto_sub. It can work because it holds tersistent connection.
-$BIN_PATH/mosquitto_sub -I $clientID $MQTTPARAMS -v -t $topic/+/+/set | while read line; do
+# TODO: Try LWT for mosquitto_sub. It can work because it holds persistent connection.
+$BIN_PATH/mosquitto_sub -I $clientID $MQTTPARAMS -v -t $topic/+/+/set $LWT | while read line; do
     rxtopic=`echo $line| cut -d" " -f1`
     inputVal=`echo $line| cut -d" " -f2`
 
@@ -16,15 +16,14 @@ $BIN_PATH/mosquitto_sub -I $clientID $MQTTPARAMS -v -t $topic/+/+/set | while re
     if [ "$property" == "lock" ] || [ "$property" == "relay" ]
     then
 
-        if [ "$inputVal" == "1" ]
-        then
-            val=1
-        elif [ "$inputVal" == "0" ]
-        then
-            val=0
-        else
-            continue
-        fi
+        case $inputVal in
+            1 | on | true)
+                val=1
+                ;;
+            0 | off | false)
+                val=0
+                ;;
+        esac
         log "MQTT request received. $property control for port" $port "with value" $inputVal
         `echo $val > /proc/power/$property$port`
         echo 5 > $tmpfile

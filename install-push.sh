@@ -15,6 +15,7 @@ fi
 # mFi devices use old weak auth method so enable it
 SSHOPT="-oKexAlgorithms=+diffie-hellman-group1-sha1"
 SSHOPT="${SSHOPT} -oHostKeyAlgorithms=+ssh-rsa"
+SSHOPT="${SSHOPT} -oCiphers=+aes256-cbc"
 # Use persistent master connection to not enter password multiple times
 SSHOPT="${SSHOPT} -oControlMaster=auto"
 SSHOPT="${SSHOPT} -oControlPersist=5m"

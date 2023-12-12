@@ -16,6 +16,7 @@ fi
 SSHOPT="-oKexAlgorithms=+diffie-hellman-group1-sha1"
 SSHOPT="${SSHOPT} -oHostKeyAlgorithms=+ssh-rsa"
 SSHOPT="${SSHOPT} -oCiphers=+aes256-cbc"
+SCPOPT="-O"
 # Use persistent master connection to not enter password multiple times
 SSHOPT="${SSHOPT} -oControlMaster=auto"
 SSHOPT="${SSHOPT} -oControlPersist=5m"
@@ -23,6 +24,6 @@ SSHOPT="${SSHOPT} -oControlPath=~/.ssh/cm-%r@%h:%p"
 
 
 ssh $SSHOPT $1 "sh /etc/persistent/mqtt/client/mqstop.sh"
-scp $SSHOPT -r mqtt $1:/etc/persistent/
+scp $SSHOPT $SCPOPT -r mqtt $1:/etc/persistent/
 ssh $SSHOPT $1 sh /etc/persistent/mqtt/client/install-client.sh skip-download
 ssh $SSHOPT $1 sh /etc/persistent/mqtt/client/mqrun.sh

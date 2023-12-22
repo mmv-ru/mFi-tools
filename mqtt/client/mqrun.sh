@@ -7,7 +7,6 @@ log() {
 export LD_LIBRARY_PATH=/var/etc/persistent/mqtt
 export BIN_PATH=/etc/persistent/mqtt
 export devicename=$(cat /tmp/system.cfg | grep resolv.host.1.name | sed 's/.*=\(.*\)/\1/')
-export topic=homie/$devicename
 export HWID=`cat /etc/board.inc | grep board_hwaddr | sed -e 's/.*="\(.*\)";/\1/'`
 export BOARD_NAME=`cat /etc/board.inc | grep board_name | sed -e 's/.*="\(.*\)";/\1/'`
 export BOARD_RAW_NAME=`cat /etc/board.inc | grep board_raw_name | sed -e 's/.*="\(.*\)";/\1/'`
@@ -15,6 +14,8 @@ export BOARD_ID=`cat /etc/board.inc | grep board_id | sed -e 's/.*="\(.*\)";/\1/
 export BOARD_REVISION=`cat /etc/board.inc | grep board_revision | sed -e 's/.*="\(.*\)";/\1/'`
 # MQTT ClientID must be uniqie for MQTT server
 export clientID=${BOARD_NAME}_$HWID
+# preferable not change topic on every minor change of $devicename
+export topic=homie/${BOARD_NAME}_$HWID
 
 refresh=60
 SLOWUPDATENUMBER=6

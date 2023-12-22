@@ -1,7 +1,14 @@
 #!/usr/bin/sh
 
+if [ "$1" == "--shell" ] ; then
+    SHELL_CONNECT=1
+    shift
+fi
+
 if [ "$1" == "" ] ; then
     echo "Usage: install-push.sh <user>@<mfi-dev>"
+    echo "  to install:    install-push.sh <user>@<mfi-dev>"
+    echo "  to open shell: install-push.sh --shell <user>@<mfi-dev>"
     exit
 fi
 
@@ -22,6 +29,11 @@ SSHOPT="${SSHOPT} -oControlMaster=auto"
 SSHOPT="${SSHOPT} -oControlPersist=5m"
 SSHOPT="${SSHOPT} -oControlPath=~/.ssh/cm-%r@%h:%p"
 
+
+if [ "$SHELL_CONNECT" == "1" ] ; then
+    ssh $SSHOPT $1
+    exit
+fi
 
 ssh $SSHOPT $1 "sh /etc/persistent/mqtt/client/mqstop.sh"
 scp $SSHOPT $SCPOPT -r mqtt $1:/etc/persistent/

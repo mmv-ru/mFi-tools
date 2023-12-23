@@ -183,6 +183,7 @@ do
     fi
 
     if [ $SLOWUPDATECOUNTER -le 0 ] ; then
+          log "Update static records."
           $BIN_PATH/client/mqpub-static.sh
     fi
 

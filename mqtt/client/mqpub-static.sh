@@ -98,6 +98,9 @@ then
         $PUBBIN $MQTTPARAMS -t $topic/port$i/\$type -m "power switch" -r
         $PUBBIN $MQTTPARAMS -t $topic/port$i/\$properties -m "$properties" -r
         $PUBBIN $MQTTPARAMS -t $topic/port$i/relay/\$settable -m "true" -r
+        $PUBBIN $MQTTPARAMS -t $topic/port$i/relay/\$name -m "s$i relay" -r
+        $PUBBIN $MQTTPARAMS -t $topic/port$i/relay/\$datatype -m "boolean" -r
+
         if [ $energy -eq 1 ]
         then
             property=energy

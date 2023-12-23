@@ -41,6 +41,7 @@ export energy
 export voltage
 export current
 export lock
+export pf
 export mFiTHS
 export mFiCS
 export mFiMSW

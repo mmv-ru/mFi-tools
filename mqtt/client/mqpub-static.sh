@@ -82,6 +82,11 @@ then
         properties=$properties,lock
     fi
 
+    if [ $pf -eq 1 ]
+    then
+        properties=$properties,pf
+    fi
+
     # node infos
     for i in $(seq $PORTS)
     do

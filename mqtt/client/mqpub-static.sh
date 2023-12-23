@@ -8,6 +8,10 @@ model_lookup() {
 $PUBBIN $MQTTPARAMS -t $topic/\$homie -m "3.0.0" -r
 $PUBBIN $MQTTPARAMS -t $topic/\$name -m "$devicename" -r
 $PUBBIN $MQTTPARAMS -t $topic/\$fw/version -m "$version" -r
+# $extensions required for homie 4.0.0
+$PUBBIN $MQTTPARAMS -t $topic/\$extensions -m "" -r
+# $implementation is optional
+$PUBBIN $MQTTPARAMS -t $topic/\$implementation -m "mFi MQTT" -r
 
 # identify mFi device
 export mFiType=`cat /etc/board.inc | grep board_name | sed -e 's/.*="\(.*\)";/\1/'`

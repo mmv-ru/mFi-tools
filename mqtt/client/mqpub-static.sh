@@ -89,16 +89,38 @@ then
         $PUBBIN $MQTTPARAMS -t $topic/port$i/\$type -m "power switch" -r
         $PUBBIN $MQTTPARAMS -t $topic/port$i/\$properties -m "$properties" -r
         $PUBBIN $MQTTPARAMS -t $topic/port$i/relay/\$settable -m "true" -r
+        if [ $energy -eq 1 ]
+        then
+            property=energy
+            property_base=$topic/port$i/$property
+            # required property attributes
+            $PUBBIN $MQTTPARAMS -t $property_base/\$name -m "s$i $property" -r
+            $PUBBIN $MQTTPARAMS -t $property_base/\$datatype -m "float" -r
+            # optional property attributes
+            $PUBBIN $MQTTPARAMS -t $property_base/\$datatype -m "float" -r
+        fi
+
+        if [ $power -eq 1 ]
+        then
+            $PUBBIN $MQTTPARAMS -t $topic/port$i/power/\$name -m "s$i power" -r
+        fi
+
+        if [ $voltage -eq 1 ]
+        then
+            $PUBBIN $MQTTPARAMS -t $topic/port$i/voltage/\$name -m "s$i voltage" -r
+        fi
+
+        if [ $current -eq 1 ]
+        then
+            $PUBBIN $MQTTPARAMS -t $topic/port$i/current/\$name -m "s$i current" -r
+        fi
+
+        if [ $lock -eq 1 ]
+        then
+            $PUBBIN $MQTTPARAMS -t $topic/port$i/lock/\$settable -m "true" -r
+        fi
     done
 
-    if [ $lock -eq 1 ]
-    then
-        for i in $(seq $PORTS)
-        do
-            $PUBBIN $MQTTPARAMS -t $topic/port$i/lock/\$settable -m "true" -r
-        done
-
-    fi
 
 fi
 

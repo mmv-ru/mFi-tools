@@ -40,7 +40,7 @@ then
         portname="port$i"
         eval portrole="\$$portname"
         if [ "$portrole" != "" ] ; then
-            $PUBBIN $MQTTPARAMS -t $topic/port$i/\$name -m "Port $i" -r
+            $PUBBIN $MQTTPARAMS -t $topic/port$i/\$name -m "Port $i ($portrole)" -r
             $PUBBIN $MQTTPARAMS -t $topic/port$i/\$type -m "$portrole" -r
             $PUBBIN $MQTTPARAMS -t $topic/port$i/\$properties -m "$(model_lookup $portrole 2)" -r
             $PUBBIN $MQTTPARAMS -t $topic/port$i/$(model_lookup $portrole 2)/\$name -m "$(model_lookup $portrole 3)" -r

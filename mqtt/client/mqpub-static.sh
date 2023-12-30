@@ -1,7 +1,7 @@
 #!/bin/sh
 
 model_lookup() {
-    awk -F ";" "/$1/ { print \$$2 }" $BIN_PATH/client/model.cfg
+    awk -F ";" "/^$1;/ { print \$$2 }" $BIN_PATH/client/model.cfg
 }
 
 log() {

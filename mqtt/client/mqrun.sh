@@ -17,6 +17,15 @@ export clientID=${BOARD_NAME}_$HWID
 # preferable not change topic on every minor change of $devicename
 export topic=homie/${BOARD_NAME}_$HWID
 
+log "devicename: $devicename"
+log "board_hwaddr: $HWID"
+log "BOARD_NAME: $BOARD_NAME"
+log "BOARD_RAW_NAME: $BOARD_RAW_NAME"
+log "BOARD_ID: $BOARD_ID"
+log "BOARD_REVISION: $BOARD_REVISION"
+log "clientID: $clientID"
+log "topic: $topic"
+
 refresh=60
 SLOWUPDATENUMBER=6
 version=$(cat /etc/version)-mq-0.2

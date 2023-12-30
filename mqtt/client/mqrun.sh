@@ -50,8 +50,9 @@ $BIN_PATH/client/mqstop.sh
 # make sure the MQTT fast update request file exists
 rm /tmp/mqtmp.*
 tmpfile=$(mktemp /tmp/mqtmp.XXXXXXXXXX)
-log "Using temp file "$tmpfile
-echo 0 > $tmpfile
+log "Using temp file "$tmpfile for fastupdate
+# fast update once on run
+echo 1 > $tmpfile
 
 # make our settings available to the subscripts
 export mqtthost

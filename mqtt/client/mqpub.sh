@@ -8,6 +8,17 @@ model_lookup() {
     awk -F ";" "/$1/ { print \$$2 }" $BIN_PATH/client/model.cfg
 }
 
+bool_out_filter() {
+    case $1 in
+        1)
+        echo true
+        ;;
+        *)
+        echo false
+        ;;
+    esac
+}
+
 # read config file
 source $BIN_PATH/client/mpower-pub.cfg
 export PUBBIN=$BIN_PATH/mosquitto_pub
@@ -35,6 +46,7 @@ FASTUPDATE=0
 
 SLOWUPDATECOUNTER=0
 
+export socket_properties
 export relay
 export power
 export energy
@@ -132,8 +144,9 @@ do
             # energy consumption
             for i in $(seq $PORTS)
             do
-                energy_val=`cat /proc/power/cf_count$((i))`
-                energy_val=$(awk -vn1="$energy_val" -vn2="0.3125" 'BEGIN{print n1*n2}')
+                #energy_val=`cat /proc/power/cf_count$((i))`
+                #energy_val=$(awk -vn1="$energy_val" -vn2="0.3125" 'BEGIN{print n1*n2}')
+                energy_val=$(awk -vn1="$(cat /proc/power/cf_count$((i)))" -vn2="0.3125" 'BEGIN{print n1*n2}')
                 energy_val=`printf "%.0f" $energy_val`
                 $PUBBIN $MQTTPARAMS -t $topic/port$i/energy -m "$energy_val" -r
             done
@@ -167,6 +180,7 @@ do
             for i in $(seq $PORTS)
             do
                 port_val=`cat /proc/power/lock$((i))`
+                port_val=$(bool_out_filter $port_val)
                 $PUBBIN $MQTTPARAMS -t $topic/port$i/lock -m "$port_val" -r
             done
         fi

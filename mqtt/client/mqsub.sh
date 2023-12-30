@@ -17,10 +17,10 @@ $BIN_PATH/mosquitto_sub -I $clientID $MQTTPARAMS -v -t $topic/+/+/set $LWT | whi
     then
 
         case $inputVal in
-            1 | on | true)
+            1 | on | ON | true)
                 val=1
                 ;;
-            0 | off | false)
+            0 | off | OFF | false)
                 val=0
                 ;;
         esac

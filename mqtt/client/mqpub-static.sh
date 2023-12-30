@@ -93,9 +93,6 @@ then
         for prop in $enabled_properties
         do
             # required property's attributes
-            prop_name="$(model_lookup $prop 3)"
-            eval 'prop_name="$prop_name"'
-            log "$prop name: $prop_name"
             $PUBBIN $MQTTPARAMS -t $topic/port$i/$prop/\$name -m "$(eval echo \"$(model_lookup $prop 3)\" )" -r
             $PUBBIN $MQTTPARAMS -t $topic/port$i/$prop/\$datatype -m "$(model_lookup $prop 5)" -r
             # optional property's attributes

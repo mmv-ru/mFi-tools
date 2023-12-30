@@ -1,25 +1,26 @@
 # About
 This adds MQTT features to Ubiquiti Networks mFi devices.
 
-This is version 3.2, which aims to comply with [homie MQTT convention](https://github.com/marvinroger/homie).
+This is version 3.2, which aims to comply with [homie MQTT convention v4.0.0](https://github.com/marvinroger/homie).
 
-The implementation of the convention is not complete yet.
+~~The implementation of the convention is not complete yet.~~
 
 
 # Compatible Devices
 - mPower Mini and mPower Outlet 3 or 8 Ports
+- mPower 1 or 3 port
 
 - mFiTHS, mFiCS, mFiMSW, mFiMSC, mFiDS and RTD sensor
 
 # Warning
 Use at your own risk!
 
-# Installation
+# ~~Pull Installation~~
+*wget from mFi device unable to connect to github dye to not suport modern SSL protocol*
+
 Use a SSH client and connect to your mFi device.
 
-~~Enter the following commands~~
-
-*wget from mFi device unable to connect to github dye to not suport modern SSL protocol*
+Enter the following commands
 
 ```
 mkdir /var/etc/persistent/mqtt
@@ -28,7 +29,24 @@ wget --no-check-certificate -q https://raw.githubusercontent.com/mmv-ru/mFi-tool
 save
 reboot
 ```
-# Installation with broken wget
+
+# Push Installation
+
+1. Clone or download repository
+2. Edit mqtt.sample.cfg for correct MQTT server address and mPort sensor types
+3. If you want, edit mpower-pub.sample.cfg or any other
+3. In repositoty dir, run bash script (for vindows use WSL or VM or Manual Installation)
+```
+sh ./install-push.sh ubnt@<mFi address>
+```
+4. If mqtt messages delivered as desired (Im using [MQTT Explorer by Thomas Nordquist](https://mqtt-explorer.com/), connect to device by ssh and command ```save``` and ```reboot```
+
+To simplify connect to mFi devices with outdated ssh cryphto can be used command
+```
+sh ./install-push.sh --shell ubnt@<mFi address>
+```
+
+# Manual Installation
 
  1. Download sources from reposotory.
  2. Optionally, copy and edit config filed in mqtt/client folder (model.cfg mqtt.cfg mpower-pub.cfg)
@@ -200,7 +218,8 @@ Number energymp "Energy consumption [%d Wh]" { mqtt="<[mosquitto:homie/mpower1/p
 Number powermp "Current power [%.1f W]" { mqtt="<[mosquitto:homie/mpower1/port1/power:state:default]" }
 ```
 
-You need a `mpowerrelay.map` file:
+~~You need a `mpowerrelay.map` file:~~
+Not necessary anymore as robust conversion used inside script.
 ```
 0=OFF
 1=ON
@@ -213,7 +232,9 @@ MQTT client Provides an MQTT client.
 
 Setup examples for Home Assistant/Hassio.io and openHAB
 
-Forked from https://github.com/unverbraucht/mFi-tools
+Forked from https://github.com/haxx0r07/mFi-tools
+
+which in turn is forked from https://github.com/unverbraucht/mFi-tools
 
 which in turn is forked from https://github.com/maletazul/mFi-tools
 

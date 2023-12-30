@@ -4,6 +4,10 @@ model_lookup() {
     awk -F ";" "/$1/ { print \$$2 }" $BIN_PATH/client/model.cfg
 }
 
+log() {
+        logger -s -t "mqtt" "$*"
+}
+
 # homie spec (incomplete)
 $PUBBIN $MQTTPARAMS -t $topic/\$homie -m "3.0.0" -r
 $PUBBIN $MQTTPARAMS -t $topic/\$name -m "$devicename" -r

@@ -15,7 +15,7 @@ export BOARD_REVISION=`cat /etc/board.inc | grep board_revision | sed -e 's/.*="
 # MQTT ClientID must be uniqie for MQTT server
 export clientID=${BOARD_NAME}_$HWID
 # preferable not change topic on every minor change of $devicename
-export topic=homie/${BOARD_NAME}_$HWID
+export topic=homie/${BOARD_NAME}-$HWID
 
 log "devicename: $devicename"
 log "board_hwaddr: $HWID"

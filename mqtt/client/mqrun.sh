@@ -13,9 +13,9 @@ export BOARD_RAW_NAME=`cat /etc/board.inc | grep board_raw_name | sed -e 's/.*="
 export BOARD_ID=`cat /etc/board.inc | grep board_id | sed -e 's/.*="\(.*\)";/\1/'`
 export BOARD_REVISION=`cat /etc/board.inc | grep board_revision | sed -e 's/.*="\(.*\)";/\1/'`
 # MQTT ClientID must be uniqie for MQTT server
-export clientID=${BOARD_NAME}_$HWID
+export clientID=$(echo "${BOARD_NAME}_$HWID"|sed 's/[^a-zA-z0-9_]/_/g')
 # preferable not change topic on every minor change of $devicename
-export topic=homie/${BOARD_NAME}-$HWID
+export topic=homie/$(echo ${BOARD_NAME}-$HWID|sed 's/[^-a-zA-z0-9]/-/g')
 
 log "devicename: $devicename"
 log "board_hwaddr: $HWID"

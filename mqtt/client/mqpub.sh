@@ -116,14 +116,7 @@ do
             for i in $(seq $PORTS)
             do
                 relay_val=`cat /proc/power/relay$((i))`
-                case $relay_val in
-                  1)
-                    relay_val="true"
-                    ;;
-                  *)
-                    relay_val="false"
-                    ;;
-                esac
+                relay_val=$(bool_out_filter $relay_val)
                 $PUBBIN $MQTTPARAMS -t $topic/port$i/relay -m "$relay_val" -r
             done
         fi

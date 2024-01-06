@@ -1,7 +1,7 @@
 #!/bin/sh
 
 log() {
-        logger -s -t "mqtt" "$*"
+    logger -s -t "mqtt" "$*"
 }
 
 export LD_LIBRARY_PATH=/var/etc/persistent/mqtt

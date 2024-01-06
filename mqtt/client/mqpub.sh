@@ -162,7 +162,7 @@ do
             for i in $(seq $PORTS)
             do
                 current_val=`cat /proc/power/i_rms$((i))`
-                current_val=`printf "%.1f" $current_val`
+                current_val=`printf "%.2f" $current_val`
                 $PUBBIN $MQTTPARAMS -t $topic/port$i/current -m "$current_val" -r
             done
         fi

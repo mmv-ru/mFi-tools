@@ -63,7 +63,7 @@ export port1
 export port2
 export port3
 export SLOWUPDATENUMBER
-export MQTTPARAMS="-h $mqtthost $auth -q 1"
+export MQTTPARAMS="-h $mqtthost $auth -I '$clientID' -q 1"
 export LWT="--will-topic $topic/\$state --will-payload lost --will-qos 1"
 
 log "starting pub and sub scripts"
